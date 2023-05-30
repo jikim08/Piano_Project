@@ -62,7 +62,7 @@ public class Piano extends JFrame {
         noteMap = new HashMap<>();                  //키와 음 맵핑
 
         c.add(label, BorderLayout.WEST);
-        JLabel showOctave = new JLabel(String.valueOf(octave));
+        JLabel showOctave = new JLabel("현재 옥타브: " + String.valueOf(octave));
         c.add(showOctave,BorderLayout.EAST);
 
 
@@ -103,12 +103,12 @@ public class Piano extends JFrame {
                 label.setText(String.valueOf(keyChar));
                 if(keyCode == VK_RIGHT){            //오른쪽 방향키는 옥타브 올리기
                     raiseOctave();
-                    showOctave.setText("현재 옥타브 :" + String.valueOf(octave));
+                    showOctave.setText("현재 옥타브: " + String.valueOf(octave));
                     return;
                 }
                 else if(keyCode == VK_LEFT){          //왼쪽 방향키는 옥타브 내리기
                     downOctave();
-                    showOctave.setText("현재 옥타브 :" + String.valueOf(octave));
+                    showOctave.setText("현재 옥타브: " + String.valueOf(octave));
                     return;
                 }
 

@@ -6,6 +6,10 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -30,6 +34,7 @@ public class Piano extends JFrame {
     private final char[] blackKey={'w','e','r','t','y','u'};          //검은 건반
     private int[] blackNote = {61,63,0,66,68,70};           //검은 건반 소리
     private int octave = 0;
+
     public Piano(){
 
         setTitle("keyEvent");
@@ -83,6 +88,9 @@ public class Piano extends JFrame {
 
         for(int i = 0; i < 7; i++){             //흰 건반 생성
             JButton button = new JButton();
+            Border lineBorder = new LineBorder(Color.BLACK); // 원래 테두리 선
+            Border emptyBorder = new EmptyBorder(0, 5, 5, 5); // 위쪽 여백만 적용
+            CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);
             button.setBackground(Color.WHITE);
             buttonMap.put(whiteKey[i], button);
             noteMap.put(whiteKey[i], whiteNote[i]);

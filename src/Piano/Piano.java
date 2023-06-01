@@ -37,7 +37,7 @@ public class Piano extends JFrame {
 
     public Piano(){
 
-        setTitle("keyEvent");
+        setTitle("Play Piano");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(new BorderLayout());                //south에 피아노 위치시킴

@@ -35,6 +35,7 @@ public class Piano extends Thread {
     private int[] blackNote = {61,63,0,66,68,70};           //검은 건반 소리
     private int octave = 0;
     private MainClass mainClass;
+
     public Piano(MainClass mainClass){
         this.mainClass = mainClass;
     }
@@ -48,7 +49,7 @@ public class Piano extends Thread {
         panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 300));
         subPanel1 = new JPanel();
         subPanel2 = new JPanel();
-        subPanel1.setLayout(new GridLayout(1, 6));
+        subPanel1.setLayout(new GridLayout(1, 12));
         subPanel2.setLayout(new GridLayout(1, 7));
 
         try {
@@ -74,6 +75,7 @@ public class Piano extends Thread {
             if(i == 0 || i == 2 || i == 4 || i == 5 || i == 7 || i == 9 || i == 11){
                 JPanel empty = new JPanel();        //검은 건반들 사이의 빈 공간
                 empty.setBackground(Color.WHITE);
+                empty.setBorder(BorderFactory.createMatteBorder(0,1,0,1,Color.BLACK));
                 subPanel1.add(empty);//빈공간 추가
                 continue;
             }
@@ -87,9 +89,7 @@ public class Piano extends Thread {
 
         for(int i = 0; i < 7; i++){             //흰 건반 생성
             JButton button = new JButton();
-            Border lineBorder = new LineBorder(Color.BLACK); // 원래 테두리 선
-            Border emptyBorder = new EmptyBorder(0, 5, 5, 5); // 위쪽 여백만 적용
-            CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);
+            button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,0,0,0,Color.WHITE),BorderFactory.createMatteBorder(0,1,1,1,Color.BLACK)));
             button.setBackground(Color.WHITE);
             buttonMap.put(whiteKey[i], button);
             noteMap.put(whiteKey[i], whiteNote[i]);

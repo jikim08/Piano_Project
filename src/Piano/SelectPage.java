@@ -64,7 +64,6 @@ public class SelectPage extends JFrame {
         });
         BackPanel.add(leftButton,BorderLayout.WEST);
 
-        //rightButton.setVisible(true);
         rightButton.setBounds(1080, 310, 60, 60);
         rightButton.setBorderPainted(false);
         rightButton.setContentAreaFilled(false);

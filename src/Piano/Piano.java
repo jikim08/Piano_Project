@@ -1,6 +1,8 @@
 package Piano;
 
 
+import com.sun.tools.javac.Main;
+
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -19,7 +21,7 @@ import java.util.Map;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 
-public class Piano extends JFrame {
+public class Piano extends Thread {
     private Synthesizer synthesizer;
     private MidiChannel midiChannel;
     private char keyChar;
@@ -34,41 +36,41 @@ public class Piano extends JFrame {
     private final char[] blackKey={'w','e','r','t','y','u'};          //검은 건반
     private int[] blackNote = {61,63,0,66,68,70};           //검은 건반 소리
     private int octave = 0;
+    private MainClass mainClass;
+    public Piano(MainClass mainClass){
+        this.mainClass = mainClass;
+    }
 
-    public Piano(){
-
-        setTitle("Play Piano");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new BorderLayout());                //south에 피아노 위치시킴
+    @Override
+    public void run(){
+        Container c = mainClass.getContentPane();
 
         panel = new JPanel();
-        panel.setLayout(new GridLayout(2,1));
+        panel.setLayout(new GridLayout(2, 1));
         panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 300));
-        subPanel1 = new JPanel();                   //검은 건반 패널
-        subPanel2 = new JPanel();                   //흰 건반 패널
+        subPanel1 = new JPanel();
+        subPanel2 = new JPanel();
         subPanel1.setLayout(new GridLayout(1, 6));
-        subPanel2.setLayout(new GridLayout(1,7));
+        subPanel2.setLayout(new GridLayout(1, 7));
 
-        try {                       //신디사이저 열기
+        try {
             synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
-            midiChannel = synthesizer.getChannels()[0]; // 첫 번째 MIDI 채널 선택
+            midiChannel = synthesizer.getChannels()[0];
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
         }
 
+        label = new JLabel("getChar");
+        label.setSize(150, 10);
+        label.setLocation(150, 100);
 
-        label = new JLabel("getChar");              //어떤 키 눌렀는지 확인용
-        label.setSize(150,10);
-        label.setLocation(150,100);
+        buttonMap = new HashMap<>();
+        noteMap = new HashMap<>();
 
-        buttonMap = new HashMap<>();                //키와 버튼 맵핑
-        noteMap = new HashMap<>();                  //키와 음 맵핑
-
-        c.add(label, BorderLayout.WEST);
+        mainClass.getContentPane().add(label, BorderLayout.WEST);
         JLabel showOctave = new JLabel("현재 옥타브: " + String.valueOf(octave));
-        c.add(showOctave,BorderLayout.EAST);
+        mainClass.getContentPane().add(showOctave, BorderLayout.EAST);
 
 
         for(int i = 0; i < 12; i++){            //검은 건반 생성
@@ -162,9 +164,6 @@ public class Piano extends JFrame {
             }
         });
 
-        setSize(1200,800);
-        setVisible(true);
-
         c.setFocusable(true);
         c.requestFocus();
     }
@@ -197,8 +196,5 @@ public class Piano extends JFrame {
         octave--;
     }
 
-    public static void main(String[] args){
-        new Piano();
-    }
 }
 

@@ -1,8 +1,6 @@
 package Piano;
 
 
-import com.sun.tools.javac.Main;
-
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -63,14 +61,13 @@ public class Piano extends Thread {
 
         label = new JLabel("getChar");
         label.setSize(150, 10);
-        label.setLocation(150, 100);
 
         buttonMap = new HashMap<>();
         noteMap = new HashMap<>();
 
-        mainClass.getContentPane().add(label, BorderLayout.WEST);
+        c.add(label, BorderLayout.WEST);
         JLabel showOctave = new JLabel("현재 옥타브: " + String.valueOf(octave));
-        mainClass.getContentPane().add(showOctave, BorderLayout.EAST);
+        c.add(showOctave, BorderLayout.EAST);
 
 
         for(int i = 0; i < 12; i++){            //검은 건반 생성

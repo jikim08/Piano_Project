@@ -10,13 +10,13 @@ public class SelectPage extends JFrame {
     private Image screenImage;
     private Graphics screenGraphic;
 
-    private ImageIcon leftButtonImage = new ImageIcon(SelectPage.class.getResource("leftButtonBasic.png"));
-    private ImageIcon rightButtonImage = new ImageIcon(SelectPage.class.getResource("rightButtonBasic.png"));
-    private ImageIcon leftButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("leftButtonEntered.png"));
-    private ImageIcon rightButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("rightButtonEntered.png"));
+    private ImageIcon leftButtonImage = new ImageIcon(SelectPage.class.getResource("images//leftButtonBasic.png"));
+    private ImageIcon rightButtonImage = new ImageIcon(SelectPage.class.getResource("images//rightButtonBasic.png"));
+    private ImageIcon leftButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//leftButtonEntered.png"));
+    private ImageIcon rightButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//rightButtonEntered.png"));
 
-    private Image introBackground = new ImageIcon(SelectPage.class.getResource("pianoBackground.jpg")).getImage();;
-    private ImageIcon selectedImage = new ImageIcon(SelectPage.class.getResource("Airplane.jpg"));
+    private Image introBackground = new ImageIcon(SelectPage.class.getResource("images//pianoBackground.jpg")).getImage();;
+    private ImageIcon selectedImage = new ImageIcon(SelectPage.class.getResource("images//Airplane.jpg"));
 
     private JButton leftButton = new JButton(leftButtonImage);
     private JButton rightButton = new JButton(rightButtonImage);

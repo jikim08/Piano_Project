@@ -17,10 +17,12 @@ public class MainClass extends JFrame {
 
         Piano piano = new Piano();
         c.add(piano, BorderLayout.SOUTH);
+
         JPanel northPa = new JPanel();
         northPa.setLayout(new FlowLayout());
         northPa.add(piano.getOctaveLa());
         c.add(northPa, BorderLayout.NORTH);
+
         setVisible(true);
     }
 

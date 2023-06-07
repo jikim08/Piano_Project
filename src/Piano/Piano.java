@@ -6,10 +6,6 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,8 +18,8 @@ import static java.awt.event.KeyEvent.VK_RIGHT;
 public class Piano extends JPanel {
     private Synthesizer synthesizer;
     private MidiChannel midiChannel;
-    private char keyChar;
-    private Map<Character, JButton> buttonMap;      //각 버튼에 해당하는 키들을 맵핑
+    private Map<Character, JPanel> buttonMap;      //각 버튼에 해당하는 키들을 맵핑
+    private Map<Character, JPanel> subWhiteButtonMap;      //흰건반 윗부분도 색깔이 바뀔수 있도록 추가
     private Map<Character, Integer> noteMap;        //각 키들에 해당
     private JPanel subPanel1;       //검은 검반이 올라갈 패널
     private JPanel subPanel2;       //흰 건반이 올라갈 패널
@@ -54,12 +50,14 @@ public class Piano extends JPanel {
 
 
         buttonMap = new HashMap<>();
+        subWhiteButtonMap = new HashMap<>();
         noteMap = new HashMap<>();
 
 
         for(int i = 0; i < 12; i++){            //검은 건반 생성
             if(i == 0 || i == 2 || i == 4 || i == 5 || i == 7 || i == 9 || i == 11){
                 JPanel empty = new JPanel();        //검은 건반들 사이의 빈 공간
+                subWhiteButtonMap.put(whiteKey[(i+1)/2],empty);
                 empty.setSize(100,150);
                 empty.setLocation(i*100,0);
                 empty.setBackground(Color.WHITE);
@@ -67,7 +65,7 @@ public class Piano extends JPanel {
                 subPanel1.add(empty);//빈공간 추가
                 continue;
             }
-            JButton button = new JButton();
+            JPanel button = new JPanel();
             button.setSize(100,150);
             button.setLocation(i*100,0);
             button.setBackground(Color.black);
@@ -78,10 +76,10 @@ public class Piano extends JPanel {
 
 
         for(int i = 0; i < 7; i++){             //흰 건반 생성
-            JButton button = new JButton();
+            JPanel button = new JPanel();
             button.setSize(1200/7,150);
             button.setLocation(i*(1200/7)-13,0);
-            button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,0,0,0,Color.WHITE),BorderFactory.createMatteBorder(0,1,1,1,Color.BLACK)));
+            button.setBorder(BorderFactory.createMatteBorder(0,1,0,1,Color.BLACK));
             button.setBackground(Color.WHITE);
             buttonMap.put(whiteKey[i], button);
             noteMap.put(whiteKey[i], whiteNote[i]);
@@ -114,7 +112,9 @@ public class Piano extends JPanel {
                     //   isPressed.put(keyChar, false);
                 }
                 try {
-                    JButton button = buttonMap.get(keyChar);
+                    JPanel button = buttonMap.get(keyChar);
+                    button.setBackground(Color.RED);
+                    button = subWhiteButtonMap.get(keyChar);
                     button.setBackground(Color.RED);
                     midiChannel.noteOn(noteMap.get(keyChar),150);
                 }
@@ -128,9 +128,11 @@ public class Piano extends JPanel {
             public void keyReleased(KeyEvent e) {
                 char keyChar = e.getKeyChar();
                 try {
-                    JButton button = buttonMap.get(keyChar);
+                    JPanel button = buttonMap.get(keyChar);
                     for(int i = 0; i<7;i++){
                         if(whiteKey[i] == keyChar) {
+                            JPanel subButton = subWhiteButtonMap.get(keyChar);
+                            subButton.setBackground(Color.WHITE);
                             button.setBackground(Color.WHITE);
                             break;
                         }

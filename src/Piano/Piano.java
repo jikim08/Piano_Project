@@ -19,14 +19,12 @@ import java.util.Map;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 
-public class Piano extends Thread {
+public class Piano extends JPanel {
     private Synthesizer synthesizer;
     private MidiChannel midiChannel;
     private char keyChar;
-    private JLabel label;
     private Map<Character, JButton> buttonMap;      //각 버튼에 해당하는 키들을 맵핑
     private Map<Character, Integer> noteMap;        //각 키들에 해당
-    private JPanel panel;
     private JPanel subPanel1;       //검은 검반이 올라갈 패널
     private JPanel subPanel2;       //흰 건반이 올라갈 패널
     private final char[] whiteKey = {'a','s','d','f','g','h','j'};    //흰 건반
@@ -34,23 +32,17 @@ public class Piano extends Thread {
     private final char[] blackKey={'w','e','r','t','y','u'};          //검은 건반
     private int[] blackNote = {61,63,0,66,68,70};           //검은 건반 소리
     private int octave = 0;
-    private MainClass mainClass;
+    public JLabel octaveLa = new JLabel("현재 옥타브: " + octave);
 
-    public Piano(MainClass mainClass){
-        this.mainClass = mainClass;
-    }
+    public Piano(){
 
-    @Override
-    public void run(){
-        Container c = mainClass.getContentPane();
 
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 1));
-        panel.setPreferredSize(new Dimension(panel.getPreferredSize().width, 300));
+        setLayout(new GridLayout(2, 1));
+        setPreferredSize(new Dimension(getPreferredSize().width, 300));
         subPanel1 = new JPanel();
         subPanel2 = new JPanel();
-        subPanel1.setLayout(new GridLayout(1, 12));
-        subPanel2.setLayout(new GridLayout(1, 7));
+        subPanel1.setLayout(null);
+        subPanel2.setLayout(null);
 
         try {
             synthesizer = MidiSystem.getSynthesizer();
@@ -60,26 +52,24 @@ public class Piano extends Thread {
             e.printStackTrace();
         }
 
-        label = new JLabel("getChar");
-        label.setSize(150, 10);
 
         buttonMap = new HashMap<>();
         noteMap = new HashMap<>();
-
-        c.add(label, BorderLayout.WEST);
-        JLabel showOctave = new JLabel("현재 옥타브: " + String.valueOf(octave));
-        c.add(showOctave, BorderLayout.EAST);
 
 
         for(int i = 0; i < 12; i++){            //검은 건반 생성
             if(i == 0 || i == 2 || i == 4 || i == 5 || i == 7 || i == 9 || i == 11){
                 JPanel empty = new JPanel();        //검은 건반들 사이의 빈 공간
+                empty.setSize(100,150);
+                empty.setLocation(i*100,0);
                 empty.setBackground(Color.WHITE);
                 empty.setBorder(BorderFactory.createMatteBorder(0,1,0,1,Color.BLACK));
                 subPanel1.add(empty);//빈공간 추가
                 continue;
             }
             JButton button = new JButton();
+            button.setSize(100,150);
+            button.setLocation(i*100,0);
             button.setBackground(Color.black);
             buttonMap.put(blackKey[i/2], button);           //인덱스 맞춰서 맵핑
             noteMap.put(blackKey[i/2], blackNote[i/2]);
@@ -89,6 +79,8 @@ public class Piano extends Thread {
 
         for(int i = 0; i < 7; i++){             //흰 건반 생성
             JButton button = new JButton();
+            button.setSize(1200/7,150);
+            button.setLocation(i*(1200/7)-13,0);
             button.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,0,0,0,Color.WHITE),BorderFactory.createMatteBorder(0,1,1,1,Color.BLACK)));
             button.setBackground(Color.WHITE);
             buttonMap.put(whiteKey[i], button);
@@ -96,26 +88,21 @@ public class Piano extends Thread {
             subPanel2.add(button);
         }
 
-        panel.add(subPanel1);
-        panel.add(subPanel2);
-
-        c.add(panel,BorderLayout.SOUTH);
-        c.addKeyListener(new KeyAdapter() {
+        add(subPanel1);
+        add(subPanel2);
+        addKeyListener(new KeyAdapter() {
             private Map<Character, Boolean> isPressed = new HashMap<>();        //중복입력 방지를 위해 추가
 
             @Override
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 char keyChar = e.getKeyChar();
-                label.setText(String.valueOf(keyChar));
                 if(keyCode == VK_RIGHT){            //오른쪽 방향키는 옥타브 올리기
                     raiseOctave();
-                    showOctave.setText("현재 옥타브: " + String.valueOf(octave));
                     return;
                 }
                 else if(keyCode == VK_LEFT){          //왼쪽 방향키는 옥타브 내리기
                     downOctave();
-                    showOctave.setText("현재 옥타브: " + String.valueOf(octave));
                     return;
                 }
 
@@ -132,7 +119,7 @@ public class Piano extends Thread {
                     midiChannel.noteOn(noteMap.get(keyChar),150);
                 }
                 catch (Exception ex){
-                    label.setText("None Exist Key");
+
                 }
                 isPressed.put(keyChar,true);            //해당 키가 눌려있음을 표시해둠
             }
@@ -155,14 +142,14 @@ public class Piano extends Thread {
                     midiChannel.noteOff(noteMap.get(keyChar));
                 }
                 catch (Exception ex) {
-                    label.setText("None Exist Key");
+
                 }
                 isPressed.put(keyChar, false);      //해당 키의 상태를 눌려있지 않은 걸로 변경
             }
         });
 
-        c.setFocusable(true);
-        c.requestFocus();
+        setFocusable(true);
+        requestFocus();
     }
 
     public void raiseOctave(){          //옥타브 올리기
@@ -177,6 +164,7 @@ public class Piano extends Thread {
         }
         noteMap = tmp;      //noteMap을 변경해줌
         octave++;
+        octaveLa.setText("현재 옥타브: " + octave);
     }
 
     public void downOctave(){           //옥타브 내리기(위와 동일)
@@ -191,6 +179,10 @@ public class Piano extends Thread {
         }
         noteMap = tmp;
         octave--;
+        octaveLa.setText("현재 옥타브: " + octave);
+    }
+    public JLabel getOctaveLa(){
+        return octaveLa;
     }
 
 }

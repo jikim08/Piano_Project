@@ -112,11 +112,13 @@ public class Piano extends JPanel {
                     //   isPressed.put(keyChar, false);
                 }
                 try {
+                    midiChannel.noteOn(noteMap.get(keyChar),150);
                     JPanel button = buttonMap.get(keyChar);
                     button.setBackground(Color.RED);
+
                     button = subWhiteButtonMap.get(keyChar);
                     button.setBackground(Color.RED);
-                    midiChannel.noteOn(noteMap.get(keyChar),150);
+
                 }
                 catch (Exception ex){
 

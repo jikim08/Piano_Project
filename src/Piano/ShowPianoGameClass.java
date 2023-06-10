@@ -2,15 +2,11 @@ package Piano;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
-public class ShowPianoClass extends JFrame {
-
-    public ShowPianoClass() {
+public class ShowPianoGameClass extends JFrame {
+    public ShowPianoGameClass() {
         setTitle("Play Piano");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c= getContentPane();
@@ -32,12 +28,14 @@ public class ShowPianoClass extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 dispose();
 
-                new StartPage();
+                new SelectPage();
             }
         });
 
         Piano piano = new Piano();
         c.add(piano, BorderLayout.SOUTH);
+        Game game = new Game(piano);
+        c.add(game, BorderLayout.CENTER);
         northPa.add(backButton);
 
         JLabel octave = piano.getOctaveLa();

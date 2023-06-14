@@ -1,16 +1,16 @@
 package Piano;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
+
+
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -23,24 +23,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SelectPage extends JFrame {
+public class SelectPage extends JFrame
+{
     private Clip clip;
 
-    private ImageIcon leftButtonImage = new ImageIcon(SelectPage.class.getResource("images//leftButtonBasic.png"));
-    private ImageIcon rightButtonImage = new ImageIcon(SelectPage.class.getResource("images//rightButtonBasic.png"));
-    private ImageIcon leftButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//leftButtonEntered.png"));
-    private ImageIcon rightButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//rightButtonEntered.png"));
-    private ImageIcon startButtonImage = new ImageIcon(SelectPage.class.getResource("images//startButton.png"));
-    private ImageIcon startButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//startEnteredButton.png"));
-    private ImageIcon backButtonImage = new ImageIcon(SelectPage.class.getResource("images//backButton.png"));
-    private ImageIcon backButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images//backButton.png"));
+    private ImageIcon leftButtonImage = new ImageIcon(SelectPage.class.getResource("images/leftButtonBasic.png"));
+    private ImageIcon rightButtonImage = new ImageIcon(SelectPage.class.getResource("images/rightButtonBasic.png"));
+    private ImageIcon leftButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images/leftButtonEntered.png"));
+    private ImageIcon rightButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images/rightButtonEntered.png"));
+    private ImageIcon startButtonImage = new ImageIcon(SelectPage.class.getResource("images/startButton.png"));
+    private ImageIcon startButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images/startEnteredButton.png"));
+    private ImageIcon backButtonImage = new ImageIcon(SelectPage.class.getResource("images/backButton.png"));
+    private ImageIcon backButtonEnteredImage = new ImageIcon(SelectPage.class.getResource("images/backButton.png"));
 
-    private Image introBackground = new ImageIcon(SelectPage.class.getResource("images//pianoBackground.jpg")).getImage();
-    private ImageIcon selectedImage[] = {
-            new ImageIcon(SelectPage.class.getResource("images//Airplane.jpg")),
-            new ImageIcon(SelectPage.class.getResource("images//Butterfly.jpg")),
-            new ImageIcon(SelectPage.class.getResource("images//ThreeBears.jpg"))
-    };
+    private Image introBackground = new ImageIcon(SelectPage.class.getResource("images/pianoBackground.jpg")).getImage();
+    private ImageIcon selectedImage[] =
+            {
+                    new ImageIcon(SelectPage.class.getResource("images/Airplane.jpg")),
+                    new ImageIcon(SelectPage.class.getResource("images/Butterfly.jpg")),
+                    new ImageIcon(SelectPage.class.getResource("images/ThreeBears.jpg"))
+            };
 
     private JButton leftButton = new JButton(leftButtonImage);
     private JButton rightButton = new JButton(rightButtonImage);
@@ -57,7 +59,8 @@ public class SelectPage extends JFrame {
 
     private JLabel imageLa;
 
-    public SelectPage() {
+    public SelectPage()
+    {
         MyPanel BackPanel = new MyPanel();
         imageLa = new JLabel(selectedImage[nowSelected]);
         imageLa.setSize(600,600);
@@ -155,7 +158,7 @@ public class SelectPage extends JFrame {
             public void mousePressed(MouseEvent e) {
                 selectedButtonSound.start();
                 dispose();
-                new ShowPianoGameClass(); //위에 클래스 완성되고 생성되면 이거 지우고 밑에 주석을 사용해주세요.
+                new ShowPianoGameClass(nowSelected); //위에 클래스 완성되고 생성되면 이거 지우고 밑에 주석을 사용해주세요.
                 //selectedPianoGame[nowSelected]; //선택된 게임 화면으로 넘어가기
                 selectedBackgroundMusic[nowSelected].stop();
 
@@ -184,7 +187,7 @@ public class SelectPage extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 dispose();
-                new StartPage();
+                new StartPage(new HashMap<>());
                 selectedButtonSound.start();
                 selectedBackgroundMusic[nowSelected].stop();
                 //메인클래스로 넘어가는것
@@ -199,7 +202,8 @@ public class SelectPage extends JFrame {
         setVisible(true);
     }
 
-    public void playSound(String pathName, boolean isLoop) {
+    public void playSound(String pathName, boolean isLoop)
+    {
         try {
             clip = AudioSystem.getClip();
             File audioFile = new File(pathName);

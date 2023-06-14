@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 
 public class ShowPianoClass extends JFrame {
@@ -31,8 +32,7 @@ public class ShowPianoClass extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dispose();
-
-                new StartPage();
+                new StartPage(new HashMap<>());
             }
         });
 
@@ -42,7 +42,7 @@ public class ShowPianoClass extends JFrame {
 
         JLabel octave = piano.getOctaveLa();
         octave.setSize(100,30);
-        octave.setLocation(550,10);
+        octave.setLocation(550,5);
         northPa.add(octave);
         c.add(northPa, BorderLayout.NORTH);
 

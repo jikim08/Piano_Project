@@ -50,8 +50,8 @@ public class SelectPage extends JFrame
     private int nowSelected = 0;
 
     //오디오 클래스를 이용한 백그라운드 뮤직과 버튼을 선택했을 때의 효과음입니다.
-    private Audio[] selectedBackgroundMusic = {new Audio("src/Piano/musics/airplane.wav", true), new Audio("src/Piano/musics/butterfly.wav", true), new Audio("src/Piano/musics/threebears.wav",true)};
-    private Audio selectedButtonSound = new Audio("src/Piano/musics/buttonEnteredMusic.wav", false);
+    private Audio[] selectedBackgroundMusic = {new Audio("src/Fullproject/musics/airplane.wav", true), new Audio("src/Fullproject/musics/butterfly.wav", true), new Audio("src/Fullproject/musics/threebears.wav",true)};
+    private Audio selectedButtonSound = new Audio("src/Fullproject/musics/buttonEnteredMusic.wav", false);
 
     /* 배열 생성해서 생성자 만든 다음에 누르면 넘어가게 해야 돼요 */
     //private ShowPianoClass[] seletedPianoGame = {new ShowPianoClass}
